@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1c9f0eda-1925-4104-bef2-f272fa41d695" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Argument_Handler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Helper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Httpc.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Request_Handler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Response_Handler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Comp445_a1/Httpc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Comp445_a1/Httpc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Httpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Httpc.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +28,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -80,7 +77,7 @@
       <workItem from="1580674369081" duration="1810000" />
       <workItem from="1580924307167" duration="29000" />
       <workItem from="1581019680156" duration="1927000" />
-      <workItem from="1581022701698" duration="3770000" />
+      <workItem from="1581022701698" duration="7340000" />
     </task>
     <servers />
   </component>
