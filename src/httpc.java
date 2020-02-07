@@ -10,7 +10,11 @@ import java.net.Socket;
 public class httpc {
     public static void main(String[] args) throws IOException {
 
-        //CTRL+ALT+R, Right, E, Enter, Tab, enter your command line parameters, Enter.
+        // CTRL+ALT+R, Right, E, Enter, Tab, enter your command line parameters, Enter.
+        // Test Variables
+        // URL = "www.httpbin.org"
+        // Path = "GET /status/418 HTTP/1.0\r\nUser-Agent: Hello\r\n\r\n"
+
         RequestHandler.handleRequest(args);
 
         InetAddress web = InetAddress.getByName(RequestHandler.web);
@@ -19,16 +23,19 @@ public class httpc {
         Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        out.write(RequestHandler.requestMessage);
+        out.write("GET /status/418 HTTP/1.0\r\nUser-Agent: Hello\r\n\r\n");
         out.flush();
 
         int data = in.read();
+        String response = "";
 
         while (data != -1) {
             char c = (char) data;
-            System.out.print(c);
+            response += c;
             data = in.read();
         }
+
+        ResponseHandler.handleResponse(response);
 
         out.close();
         in.close();
