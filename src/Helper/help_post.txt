@@ -1,4 +1,3 @@
-httpc help post
 
 usage: httpc post [-v] [-h key:value] [-d inline-data] [-f file] URL
 
