@@ -10,6 +10,7 @@ import java.net.Socket;
 public class httpc {
     public static void main(String[] args) throws IOException {
 
+        //CTRL+ALT+R, Right, E, Enter, Tab, enter your command line parameters, Enter.
         RequestHandler.handleRequest(args);
 
         InetAddress web = InetAddress.getByName(RequestHandler.web);
