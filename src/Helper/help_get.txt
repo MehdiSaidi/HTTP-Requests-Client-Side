@@ -1,6 +1,4 @@
 
-httpc help get
-
 usage: httpc get [-v] [-h key:value] URL
 
 Get executes a HTTP GET request for a given URL.
