@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Helper {
 
-    static File helpFile = new File("src/Helper/help.txt");
+    static File helpFile = new File("Helper/help.txt");
     static File helpGetFile = new File("Helper/help_get.txt");
     static File helpPostFile = new File("Helper/help_post.txt");
 
