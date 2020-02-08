@@ -46,6 +46,8 @@ public class RequestHandler {
         URL urlObject = new URL(web);
 
         web = urlObject.getHost();
+        // TODO: If in the command line the user already enter a URL with www.
+        // this will add an extra www. so it will become -> www.www.
         web = "www." + web;
 
         urlPath = urlObject.getFile();
