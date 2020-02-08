@@ -2,7 +2,7 @@ package Arguments;
 
 public class Verbose {
 
-    private static boolean active = false;
+    public static boolean active = false;
 
     public static void applyArgument(String response) {
 

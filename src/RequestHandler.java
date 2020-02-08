@@ -14,7 +14,7 @@ public class RequestHandler {
 
     public static String handleRequest(String[] args) throws MalformedURLException {
 
-        String stringURL = args [2];
+        String stringURL = args[2];
         URL urlObject = new URL(stringURL);
 
         web = urlObject.getHost();
@@ -25,12 +25,12 @@ public class RequestHandler {
 
         requestMessage = method + " " + urlPath + " " + version;
 
-        method = args [1].toUpperCase();
+        method = args[1].toUpperCase();
 
-        if(!args[2].contains("http")) {
+        if (!args[2].contains("http")) {
 
             for (int i = 2; !args[i].contains("http"); i++) {
-                if()
+                 if()
             }
 
         }
@@ -54,14 +54,7 @@ public class RequestHandler {
 
         // 1) Get method (GET or POST)
 
-
-
-        http://httpbin.org/status/418
-
-
-
-
-
+        http: // httpbin.org/status/418
 
         // 2) Get arguments
 
@@ -73,7 +66,6 @@ public class RequestHandler {
     }
 
     // TODO: Implement this method so that it handles any errors in the user input.
-
 
     private static void handleErrors(String[] args) {
 
