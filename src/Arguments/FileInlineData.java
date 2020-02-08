@@ -10,7 +10,7 @@ public class FileInlineData {
 
     public static String applyArgument(String path) throws IOException {
 
-        if (active)
+        if (!active)
             return "";
 
         FileInputStream file = new FileInputStream(path);

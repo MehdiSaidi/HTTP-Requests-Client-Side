@@ -1,16 +1,16 @@
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Writer;
-import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URISyntaxException;
 
-import Handlers.ResponseHandler;
 import Handlers.RequestHandler;
+import Handlers.ResponseHandler;
 
 public class httpc {
     public static void main(String[] args) throws IOException, URISyntaxException {
