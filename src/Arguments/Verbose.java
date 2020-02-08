@@ -4,11 +4,11 @@ public class Verbose {
 
     public static boolean active = false;
 
-    public static void applyArgument(String response) {
+    public static String applyArgument(String response) {
 
         if (active)
-            return;
+            return response;
 
-        System.out.println(response.substring(response.indexOf("\r\n\r\n")));
+        return response.substring(response.indexOf("\r\n\r\n"));
     }
 }
