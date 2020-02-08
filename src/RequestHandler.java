@@ -17,7 +17,7 @@ public class RequestHandler {
 
     public static String handleRequest(String[] args) throws MalformedURLException {
 
-        String stringURL = args [2];
+        String stringURL = args[2];
         URL urlObject = new URL(stringURL);
 
         web = urlObject.getHost();
@@ -25,10 +25,9 @@ public class RequestHandler {
 
         urlPath = urlObject.getPath();
 
-
         requestMessage = method + " " + urlPath + " " + version;
 
-        method = args [1].toUpperCase();
+        method = args[1].toUpperCase();
 
         requestMessage = method + " ";
 
@@ -37,48 +36,45 @@ public class RequestHandler {
         boolean file = false;
         boolean data = false;
 
-
         requestMessage = method;
 
         ArrayList<String> headersArray = new ArrayList<String>();
         String entityBody;
 
-
-        if(!args[2].contains("http")) {
-
+        if (!args[2].contains("http")) {
 
             for (int i = 2; !args[i].contains("http"); i++) {
-                if(args[i].equals("-v")){
+                if (args[i].equals("-v")) {
 
-                    if(Verbose.active == true){
+                    if (Verbose.active == true) {
                         Helper.help();
                         break;
                     }
                     Verbose.active = true;
                 }
 
-                if(args[i].equals("-h")){
-                    headersArray.add(args[i+1]);
+                if (args[i].equals("-h")) {
+                    headersArray.add(args[i + 1]);
 
                     i++;
                     continue;
                 }
 
-                if( args[i].equals("-d")){
-                    if(file || data){
+                if (args[i].equals("-d")) {
+                    if (file || data) {
                         Helper.help();
                         break;
                     }
 
                     data = true;
 
-                    entityBody = args[i+1];
+                    entityBody = args[i + 1];
                     i++;
                     continue;
                 }
 
-                if(args[i].equals("-f")){
-                    if(data == true){
+                if (args[i].equals("-f")) {
+                    if (data == true) {
                         Helper.help();
                         break;
                     }
@@ -86,12 +82,6 @@ public class RequestHandler {
             }
 
         }
-
-
-
-
-
-
 
         // Handle any errors
         // ? Maybe we don't need this method and we can just do it all here
@@ -106,14 +96,7 @@ public class RequestHandler {
 
         // 1) Get method (GET or POST)
 
-
-
-        http://httpbin.org/status/418
-
-
-
-
-
+        http: // httpbin.org/status/418
 
         // 2) Get arguments
 
@@ -125,7 +108,6 @@ public class RequestHandler {
     }
 
     // TODO: Implement this method so that it handles any errors in the user input.
-
 
     private static void handleErrors(String[] args) {
 
