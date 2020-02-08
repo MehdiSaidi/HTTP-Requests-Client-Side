@@ -1,8 +1,11 @@
 import Arguments.*;
+import Helper.Helper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URI;
+
+import java.util.ArrayList;
 
 public class RequestHandler {
 
@@ -27,10 +30,59 @@ public class RequestHandler {
 
         method = args [1].toUpperCase();
 
+        requestMessage = method + " ";
+
+        boolean verbose = false;
+        boolean header = false;
+        boolean file = false;
+        boolean data = false;
+
+
+        requestMessage = method;
+
+        ArrayList<String> headersArray = new ArrayList<String>();
+        String entityBody;
+
+
         if(!args[2].contains("http")) {
 
+
             for (int i = 2; !args[i].contains("http"); i++) {
-                if()
+                if(args[i].equals("-v")){
+
+                    if(Verbose.active == true){
+                        Helper.help();
+                        break;
+                    }
+                    Verbose.active = true;
+                }
+
+                if(args[i].equals("-h")){
+                    headersArray.add(args[i+1]);
+
+                    i++;
+                    continue;
+                }
+
+                if( args[i].equals("-d")){
+                    if(file || data){
+                        Helper.help();
+                        break;
+                    }
+
+                    data = true;
+
+                    entityBody = args[i+1];
+                    i++;
+                    continue;
+                }
+
+                if(args[i].equals("-f")){
+                    if(data == true){
+                        Helper.help();
+                        break;
+                    }
+                }
             }
 
         }
