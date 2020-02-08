@@ -1,11 +1,12 @@
-import Arguments.*;
-import Helper.Helper;
+package Handlers;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
-import java.net.URI;
-
 import java.util.ArrayList;
+
+import Arguments.FileInlineData;
+import Arguments.Verbose;
+import Helper.Helper;
 
 public class RequestHandler {
 
@@ -14,24 +15,24 @@ public class RequestHandler {
     private static String method;
     private static String urlPath;
     private static String version = "HTTP/1.0";
+    private static String entityBody;
 
-    public static String handleRequest(String[] args) throws MalformedURLException {
+    public static String handleRequest(String[] args) throws IOException {
         String stringURL;
         boolean file = false;
         boolean data = false;
-        String entityBody = null;
         ArrayList<String> headersArray = new ArrayList<String>();
 
         method = args[1].toUpperCase();
 
-        //------------------------------------------------------------------------- If there's arguments
+        // ------------------------------------------------------------------------- If
+        // there's arguments
         if (!args[2].contains("http")) {
             int i;
 
             for (i = 2; i < args.length; i++) {
 
-
-                if(args[i].equals("-v")){
+                if (args[i].equals("-v")) {
 
                     if (Verbose.active) {
                         Helper.help();
@@ -46,7 +47,7 @@ public class RequestHandler {
                     i++;
                     continue;
                 }
-                //--------------------------- Argument -d
+                // --------------------------- Argument -d
                 if (args[i].equals("-d")) {
                     if (file || data) {
                         Helper.help();
@@ -55,24 +56,23 @@ public class RequestHandler {
 
                     data = true;
 
-                    entityBody = args[i+1];
+                    entityBody = args[i + 1];
 
+                    if (!entityBody.contains("}")) {
+                        i = i + 2;
+                        while (!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h")
+                                && !args[i].contains("http")) {
 
-                    if(!entityBody.contains("}")){
-                        i = i+2;
-                        while(!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h") &&
-                                !args[i].contains("http")){
-
-                            entityBody = entityBody + args [i];
+                            entityBody = entityBody + args[i];
                             i++;
                         }
                     }
                     continue;
                 }
 
-                //--------------------------- Argument -f
-                if(args[i].equals("-f")){
-                    if(data || file){
+                // --------------------------- Argument -f
+                if (args[i].equals("-f")) {
+                    if (data || file) {
 
                         Helper.help();
                         break;
@@ -80,20 +80,21 @@ public class RequestHandler {
 
                     file = true;
 
-                    //entityBody = File.applyArgument(args[i+1]);
+                    entityBody = FileInlineData.applyArgument(args[i + 1]);
 
                     i++;
                     continue;
                 }
 
-                //----------------If you didn't match with any of these if's, error in your input
-                else{
+                // ----------------If you didn't match with any of these if's, error in your
+                // input
+                else {
                     Helper.help();
                     break;
                 }
             }
 
-            stringURL = args[i-1];
+            stringURL = args[i - 1];
             URL urlObject = new URL(stringURL);
 
             web = urlObject.getHost();
@@ -105,8 +106,9 @@ public class RequestHandler {
 
         }
 
-        //---------------------------------------------------------------------- Otherwise if no arguments
-        else{
+        // ----------------------------------------------------------------------
+        // Otherwise if no arguments
+        else {
             requestMessage = method + " " + urlPath + " " + version + "\r\n";
         }
 

@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -6,6 +7,9 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import Handlers.ResponseHandler;
+import Handlers.RequestHandler;
 
 public class httpc {
     public static void main(String[] args) throws IOException {
@@ -23,7 +27,7 @@ public class httpc {
         Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        out.write("GET /status/418 HTTP/1.0\r\nUser-Agent: Hello\r\n\r\n");
+        out.write(RequestHandler.requestMessage);
         out.flush();
 
         int data = in.read();
