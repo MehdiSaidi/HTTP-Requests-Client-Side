@@ -7,17 +7,19 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URISyntaxException;
 
 import Handlers.ResponseHandler;
 import Handlers.RequestHandler;
 
 public class httpc {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
 
         // CTRL+ALT+R, Right, E, Enter, Tab, enter your command line parameters, Enter.
         // Test Variables
         // URL = "www.httpbin.org"
         // Path = "GET /status/418 HTTP/1.0\r\nUser-Agent: Hello\r\n\r\n"
+        // httpc get -v 'http://httpbin.org/get?course=networking&assignment=1'
 
         RequestHandler.handleRequest(args);
 

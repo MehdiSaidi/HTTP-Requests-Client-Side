@@ -6,7 +6,7 @@ public class Verbose {
 
     public static void applyArgument(String response) {
 
-        if (!active)
+        if (active)
             return;
 
         System.out.println(response.substring(response.indexOf("\r\n\r\n")));

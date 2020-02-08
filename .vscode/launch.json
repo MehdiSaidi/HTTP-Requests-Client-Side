@@ -6,11 +6,19 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug httpc",
+            "name": "Debug httpc help",
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
-            "args": "httpc get"
+            "args": "help"
+        },
+        {
+            "type": "java",
+            "name": "Debug httpc get",
+            "request": "launch",
+            "mainClass": "httpc",
+            "projectName": "Comp-445_a1_bb747a01",
+            "args": "get -v 'http://httpbin.org/get?course=networking&assignment=1'"
         }
     ]
 }

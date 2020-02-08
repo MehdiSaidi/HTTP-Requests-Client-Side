@@ -6,58 +6,42 @@ import java.util.Scanner;
 
 public class Helper {
 
-    static File helpFile = new File("Helper/help.txt");
-    static File helpGetFile = new File("Helper/help_get.txt");
-    static File helpPostFile = new File("Helper/help_post.txt");
+    static File helpFile = new File("src/Helper/help.txt");
+    static File helpGetFile = new File("src/Helper/help_get.txt");
+    static File helpPostFile = new File("src/Helper/help_post.txt");
 
-    public static void help() {
+    public static void help() throws FileNotFoundException {
 
-        try {
-            Scanner readHelp = new Scanner(helpFile);
+        Scanner readHelp = new Scanner(helpFile);
 
-            while (readHelp.hasNextLine()) {
-                System.out.println(readHelp.nextLine());
-            }
-
-            readHelp.close();
+        while (readHelp.hasNextLine()) {
+            System.out.println(readHelp.nextLine());
         }
 
-        catch (FileNotFoundException e) {
-            System.out.println("File does not exist");
-        }
+        readHelp.close();
 
+        System.exit(0);
     }
 
-    public static void helpGet() {
+    public static void helpGet() throws FileNotFoundException {
 
-        try {
-            Scanner readHelpGet = new Scanner(helpGetFile);
+        Scanner readHelpGet = new Scanner(helpGetFile);
 
-            while (readHelpGet.hasNextLine()) {
-                System.out.println(readHelpGet.nextLine());
-            }
-
-            readHelpGet.close();
+        while (readHelpGet.hasNextLine()) {
+            System.out.println(readHelpGet.nextLine());
         }
 
-        catch (FileNotFoundException e) {
-            System.out.println("The file does not exist");
-        }
+        readHelpGet.close();
     }
 
-    public static void helpPost() {
-        try {
-            Scanner readHelpPost = new Scanner(helpPostFile);
+    public static void helpPost() throws FileNotFoundException {
 
-            while (readHelpPost.hasNextLine()) {
-                System.out.println(readHelpPost.nextLine());
-            }
+        Scanner readHelpPost = new Scanner(helpPostFile);
 
-            readHelpPost.close();
+        while (readHelpPost.hasNextLine()) {
+            System.out.println(readHelpPost.nextLine());
         }
 
-        catch (FileNotFoundException e) {
-            System.out.println("The file does not exist");
-        }
+        readHelpPost.close();
     }
 }

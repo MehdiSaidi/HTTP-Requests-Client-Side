@@ -8,10 +8,10 @@ public class Header {
 
     public static boolean active = false;
 
-    public static void applyArgument(ArrayList<String> headers) {
+    public static String applyArgument(ArrayList<String> headers) {
 
         if (!active)
-            return;
+            return "";
 
         Set<String> headerHash = new HashSet<String>();
 
@@ -26,8 +26,7 @@ public class Header {
             headersRequestMsg += s + "\r\n";
         }
 
-        // TODO: Set a headers string variable equal to headersRequestMsg
-
+        return headersRequestMsg;
     }
 
 }
