@@ -21,6 +21,7 @@ public class RequestHandler {
     private static String headers = "";
 
     public static void handleRequest(String[] args) throws IOException, URISyntaxException {
+
         // 1) Get method (GET or POST)
         method = args[0];
 
@@ -85,6 +86,7 @@ public class RequestHandler {
                     i++;
                     continue;
                 }
+                // TODO Create InlineData class and fix the issue below
                 // Argument -d
                 if (args[i].equals("-d")) {
                     if (FileInlineData.active || data) {
