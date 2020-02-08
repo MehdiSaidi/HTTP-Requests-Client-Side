@@ -16,37 +16,24 @@ public class RequestHandler {
     private static String version = "HTTP/1.0";
 
     public static String handleRequest(String[] args) throws MalformedURLException {
-
-        String stringURL = args[2];
-        URL urlObject = new URL(stringURL);
-
-        web = urlObject.getHost();
-        web = "www." + web;
-
-        urlPath = urlObject.getPath();
-
-        requestMessage = method + " " + urlPath + " " + version;
+        String stringURL;
+        boolean file = false;
+        boolean data = false;
+        String entityBody = null;
+        ArrayList<String> headersArray = new ArrayList<String>();
 
         method = args[1].toUpperCase();
 
-        requestMessage = method + " ";
-
-        boolean verbose = false;
-        boolean header = false;
-        boolean file = false;
-        boolean data = false;
-
-        requestMessage = method;
-
-        ArrayList<String> headersArray = new ArrayList<String>();
-        String entityBody;
-
+        //------------------------------------------------------------------------- If there's arguments
         if (!args[2].contains("http")) {
+            int i;
 
-            for (int i = 2; !args[i].contains("http"); i++) {
-                if (args[i].equals("-v")) {
+            for (i = 2; i < args.length; i++) {
 
-                    if (Verbose.active == true) {
+
+                if(args[i].equals("-v")){
+
+                    if (Verbose.active) {
                         Helper.help();
                         break;
                     }
@@ -59,7 +46,7 @@ public class RequestHandler {
                     i++;
                     continue;
                 }
-
+                //--------------------------- Argument -d
                 if (args[i].equals("-d")) {
                     if (file || data) {
                         Helper.help();
@@ -68,19 +55,59 @@ public class RequestHandler {
 
                     data = true;
 
-                    entityBody = args[i + 1];
+                    entityBody = args[i+1];
+
+
+                    if(!entityBody.contains("}")){
+                        i = i+2;
+                        while(!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h") &&
+                                !args[i].contains("http")){
+
+                            entityBody = entityBody + args [i];
+                            i++;
+                        }
+                    }
+                    continue;
+                }
+
+                //--------------------------- Argument -f
+                if(args[i].equals("-f")){
+                    if(data || file){
+
+                        Helper.help();
+                        break;
+                    }
+
+                    file = true;
+
+                    //entityBody = File.applyArgument(args[i+1]);
+
                     i++;
                     continue;
                 }
 
-                if (args[i].equals("-f")) {
-                    if (data == true) {
-                        Helper.help();
-                        break;
-                    }
+                //----------------If you didn't match with any of these if's, error in your input
+                else{
+                    Helper.help();
+                    break;
                 }
             }
 
+            stringURL = args[i-1];
+            URL urlObject = new URL(stringURL);
+
+            web = urlObject.getHost();
+            web = "www." + web;
+
+            urlPath = urlObject.getPath();
+
+            requestMessage = method + " " + urlPath + " " + version + "\r\n";
+
+        }
+
+        //---------------------------------------------------------------------- Otherwise if no arguments
+        else{
+            requestMessage = method + " " + urlPath + " " + version + "\r\n";
         }
 
         // Handle any errors
