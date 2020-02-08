@@ -51,7 +51,7 @@ public class RequestHandler {
         urlPath = urlObject.getFile();
 
         // 4) Put together the request message with the correct format
-        requestMessage = method + " " + urlPath + " " + httpVersion + headers + entityBody + "\r\n\r\n";
+        requestMessage = method + " " + urlPath + " " + httpVersion + "\r\n" + headers + entityBody + "\r\n\r\n";
 
     }
 
@@ -80,6 +80,8 @@ public class RequestHandler {
                     String headerFieldName = args[i + 1].substring(0, args[i + 1].indexOf(":") + 1);
                     String headerValue = args[i + 1].substring(args[i + 1].indexOf(":") + 1);
                     String header = headerFieldName + " " + headerValue;
+
+                    Header.active = true;
 
                     headerArr.add(header);
 
