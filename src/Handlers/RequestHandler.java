@@ -16,7 +16,7 @@ public class RequestHandler {
     public static String web;
     private static String method;
     private static String urlPath;
-    private static String httpVersion = "HTTP/1.0";
+    private static String httpVersion = "HTTP/1.0\r\n";
     private static String entityBody = "";
     private static String headers = "";
 
@@ -53,7 +53,7 @@ public class RequestHandler {
         urlPath = urlObject.getFile();
 
         // 4) Put together the request message with the correct format
-        requestMessage = method + " " + urlPath + " " + httpVersion + "\r\n" + headers + entityBody + "\r\n\r\n";
+        requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
 
     }
 

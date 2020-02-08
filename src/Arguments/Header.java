@@ -1,7 +1,7 @@
 package Arguments;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Header {
@@ -13,7 +13,7 @@ public class Header {
         if (!active)
             return "";
 
-        Set<String> headerHash = new HashSet<String>();
+        Set<String> headerHash = new LinkedHashSet<String>();
 
         // Since a set doesn't allow duplicates it will get rid of any duplicates
         for (String s : headers) {
