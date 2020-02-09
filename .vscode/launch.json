@@ -32,7 +32,7 @@
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
-            "args": "get -h Content-Type:Hello -v 'http://httpbin.org/get?course=networking&assignment=1'"
+            "args": "get -v \\\"http://httpbin.org/get?course=networking&assignment=1\\\""
         }
     ]
 }
