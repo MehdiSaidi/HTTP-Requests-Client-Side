@@ -58,6 +58,9 @@ public class RequestHandler {
 
                 urlPath = urlObject.getFile();
 
+                if(!headers.contains("Host"))
+                    headers = headers + "Host:" + urlObject.getHost() + "\r\n";
+
                 // 4) Put together the request message with the correct format
                 requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
 
