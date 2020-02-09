@@ -36,12 +36,10 @@ public class RequestHandler {
             method = method.toUpperCase();
 
         // 2) Get arguments
-        int urlIndex;
+        int urlIndex = handleArguments(args);
 
-        if(handleArguments(args) == 1){
-            urlIndex = 1;
-        } else
-            urlIndex = handleArguments(args) - 1;
+        if(urlIndex != 1)
+            urlIndex -= 1;
 
         // 3) Get URL and path (Use URL and URI classes)
         // TODO: I think there might be something wrong with how we are getting the URL
@@ -51,7 +49,7 @@ public class RequestHandler {
         web = web.replaceAll("'", "");
 
 
-        //--- the purpose of this loop is to retry once the exception ahs been catched.
+        //--- the purpose of this loop is to retry once the exception has been catched.
         while(!urlGood) {
             try {
                 URL urlObject = new URL(web);
@@ -72,6 +70,9 @@ public class RequestHandler {
         }
     }
 
+    // Input = httpc post -h Content-Type:application/json -d '{"Assignment": 1}'
+    // http://httpbin.org/post
+
     private static int handleArguments(String[] args) throws IOException {
         boolean data = false;
         ArrayList<String> headerArr = new ArrayList<String>();
@@ -83,7 +84,7 @@ public class RequestHandler {
 
             for (i = 1; i < args.length; i++) {
 
-                // Argument -v
+                // ---------- Argument -v ----------
                 if (args[i].equals("-v")) {
 
                     if (Verbose.active) {
@@ -94,7 +95,7 @@ public class RequestHandler {
                     continue;
                 }
 
-                // Argument -h
+                // ---------- Argument -h ----------
                 if (args[i].equals("-h")) {
                     String headerFieldName = args[i + 1].substring(0, args[i + 1].indexOf(":") + 1);
                     String headerValue = args[i + 1].substring(args[i + 1].indexOf(":") + 1);
@@ -108,7 +109,7 @@ public class RequestHandler {
                     continue;
                 }
                 // TODO Create InlineData class and fix the issue below
-                // Argument -d
+                // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
                     if (FileInlineData.active || data) {
                         Helper.help();
@@ -118,23 +119,24 @@ public class RequestHandler {
                     data = true;
 
                     entityBody = args[i + 1];
+                    String a = entityBody.substring(entityBody.length()-1);
+                    i++;
 
                     // TODO: Fix this. It's not always going to be in JSON format {Assignment : 1} ---------------> fixed
                     // it's just a string
-                    if (!entityBody.contains(" ' ")) {
-                        i = i + 2;
+                    if (!entityBody.substring(entityBody.length()-1).equals("'")) {
+                        i = i + 1;
                         while (!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h")
-                                && !args[i].contains("http")) {
+                                && !args[i].contains("'")) {
 
                             entityBody = entityBody + args[i];
                             i++;
                         }
-                        entityBody = entityBody.replaceAll("'", "");
                     }
                     continue;
                 }
 
-                // Argument -f
+                // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
                     if (data || FileInlineData.active) {
 
@@ -152,15 +154,16 @@ public class RequestHandler {
 
                 // If you didn't match with any of these if's, error in your input
                 else {
-                    Helper.help();
                     break;
                 }
             }
 
         }
 
-        headers = Header.applyArgument(headerArr);
 
-        return i;
+        headers = Header.applyArgument(headerArr);
+        entityBody = entityBody.replaceAll("'", "");
+
+        return i + 1;
     }
 }
