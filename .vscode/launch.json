@@ -16,7 +16,7 @@
             "name": "httpc post",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "post -h Content-Length:17 -d '{\\\"Assignment\\\": 1}' http://httpbin.org/post"
+            "args": "post -h Content-Length:12 -d 'Testing 'this'' http://httpbin.org/post"
         },
         {
             "type": "java",
