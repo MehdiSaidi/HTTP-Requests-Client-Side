@@ -123,17 +123,18 @@ public class RequestHandler {
         }
 
         headers = Header.applyArgument(headerArr);
-        entityBody = entityBody.substring(1, entityBody.length() - 1);
+        entityBody = (entityBody.length() > 0) ? entityBody.substring(1, entityBody.length() - 1) : "";
     }
 
     private static void setURL(String[] args) {
         boolean isURLValid = false;
 
-        // TODO: I think there might be something wrong with how we are getting the URL
         web = args[args.length - 1];
+        Character start = web.charAt(0);
+        Character end = web.charAt(web.length() - 1);
 
-        // TODO: Hacky way of doing it, let's keep an eye on this
-        web = web.substring(1, web.length() - 1);
+        web = (start.equals('\'') && end.equals('\'')) ? web.substring(1, web.length() - 1) : web;
+        web = "\"" + web + "\"";
 
         // --- the purpose of this loop is to retry once the exception has been catched.
         while (!isURLValid) {
