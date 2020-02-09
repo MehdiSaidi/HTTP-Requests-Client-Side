@@ -6,7 +6,21 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug httpc help",
+            "name": "Debug (Launch) with Arguments Prompt",
+            "request": "launch",
+            "mainClass": "httpc",
+            "args": "'\"{\"Assignment\": 1}'\""
+        },
+        {
+            "type": "java",
+            "name": "httpc post",
+            "request": "launch",
+            "mainClass": "httpc",
+            "args": "post -h Content-Length:16 -d '{Assignment:1}' http://httpbin.org/post"
+        },
+        {
+            "type": "java",
+            "name": "httpc help",
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
@@ -14,7 +28,7 @@
         },
         {
             "type": "java",
-            "name": "Debug httpc get",
+            "name": "httpc get",
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",

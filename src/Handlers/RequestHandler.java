@@ -38,7 +38,7 @@ public class RequestHandler {
         // 2) Get arguments
         int urlIndex = handleArguments(args);
 
-        if(urlIndex != 1)
+        if (urlIndex != 1)
             urlIndex -= 1;
 
         // 3) Get URL and path (Use URL and URI classes)
@@ -48,21 +48,18 @@ public class RequestHandler {
         // TODO: Hacky way of doing it, let's keep an eye on this
         web = web.replaceAll("'", "");
 
-
-        //--- the purpose of this loop is to retry once the exception has been catched.
-        while(!urlGood) {
+        // --- the purpose of this loop is to retry once the exception has been catched.
+        while (!urlGood) {
             try {
                 URL urlObject = new URL(web);
 
                 web = urlObject.getHost();
                 urlGood = true;
 
-
                 urlPath = urlObject.getFile();
 
-        // 4) Put together the request message with the correct format
-        requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
-
+                // 4) Put together the request message with the correct format
+                requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
 
             } catch (MalformedURLException e) {
                 web = "http://" + web;
@@ -78,9 +75,10 @@ public class RequestHandler {
         ArrayList<String> headerArr = new ArrayList<String>();
         int i = 1;
 
-        // TODO: Fix -> The URL is not always going to contain http ------------------------------------------> fixed
-        if (!args[1].contains("http") && args[1].equals("-d")|| args[1].equals("-h")|| args[1].equals("-f")||
-                args[1].equals("-v")) {
+        // TODO: Fix -> The URL is not always going to contain http
+        // ------------------------------------------> fixed
+        if (!args[1].contains("http") && args[1].equals("-d") || args[1].equals("-h") || args[1].equals("-f")
+                || args[1].equals("-v")) {
 
             for (i = 1; i < args.length; i++) {
 
@@ -119,12 +117,13 @@ public class RequestHandler {
                     data = true;
 
                     entityBody = args[i + 1];
-                    String a = entityBody.substring(entityBody.length()-1);
+                    String a = entityBody.substring(entityBody.length() - 1);
                     i++;
 
-                    // TODO: Fix this. It's not always going to be in JSON format {Assignment : 1} ---------------> fixed
+                    // TODO: Fix this. It's not always going to be in JSON format {Assignment : 1}
+                    // ---------------> fixed
                     // it's just a string
-                    if (!entityBody.substring(entityBody.length()-1).equals("'")) {
+                    if (!entityBody.substring(entityBody.length() - 1).equals("'")) {
                         i = i + 1;
                         while (!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h")
                                 && !args[i].contains("'")) {
@@ -159,7 +158,6 @@ public class RequestHandler {
             }
 
         }
-
 
         headers = Header.applyArgument(headerArr);
         entityBody = entityBody.replaceAll("'", "");

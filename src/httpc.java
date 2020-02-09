@@ -17,7 +17,6 @@ import Helper.Helper;
 public class httpc {
     public static void main(String[] args) throws IOException, URISyntaxException {
 
-
         // CTRL+ALT+R, Right, E, Enter, Tab, enter your command line parameters, Enter.
         // Test Variables
         // URL = "www.httpbin.org"
@@ -49,8 +48,6 @@ public class httpc {
         out.close();
         in.close();
         socket.close();
-
-
 
     }
 

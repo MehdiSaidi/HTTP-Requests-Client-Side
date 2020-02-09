@@ -65,11 +65,10 @@ public class RequestMessageTest {
         // Input = httpc post -h Content-Type:application/json -d '{"Assignment": 1}'
         // http://httpbin.org/post
 
-        final String input = "post -h Content-Type:application/json -d '{\"Assignment\":1}' http://httpbin.org/post";
+        final String[] args = { "post", "-h", "Content-Type:application/json", "-d", "'{\"Assignment\": 1}'",
+                "http://httpbin.org/post" };
 
-        final String[] args = input.split(" ");
-
-        final String expected = "POST /post HTTP/1.0\r\nContent-Type: application/json\r\n\r\n{\"Assignment\":1}";
+        final String expected = "POST /post HTTP/1.0\r\nContent-Type: application/json\r\n\r\n{\"Assignment\": 1}";
 
         RequestHandler.handleRequest(args);
 
@@ -104,10 +103,10 @@ public class RequestMessageTest {
         // -f 'FilePathHere'
         // http://httpbin.org/get
 
-        final String filePath = "/Users/mehdisaidi/Desktop/suckbitch.txt";
+        final String filePath = "";
 
         final String input = "get -v -h Content-Type:application/json -h Host:GimmeCookies -h accept:ThisGift -f "
-                + "filePath" + " http://httpbin.org/get";
+                + filePath + " http://httpbin.org/get";
 
         final String[] args = input.split(" ");
 
