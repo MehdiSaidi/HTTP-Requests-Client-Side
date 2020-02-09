@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) with Arguments Prompt",
+            "request": "launch",
+            "mainClass": "httpc",
+            "args": "'\"{\"Assignment\": 1}'\""
+        },
+        {
+            "type": "java",
+            "name": "httpc post",
+            "request": "launch",
+            "mainClass": "httpc",
+            "args": "post -h Content-Length:16 -d '{Assignment:1}' http://httpbin.org/post"
+        },
+        {
+            "type": "java",
+            "name": "httpc help",
+            "request": "launch",
+            "mainClass": "httpc",
+            "projectName": "Comp-445_a1_bb747a01",
+            "args": "help"
+        },
+        {
+            "type": "java",
+            "name": "httpc get",
+            "request": "launch",
+            "mainClass": "httpc",
+            "projectName": "Comp-445_a1_bb747a01",
+            "args": "get -h Content-Type:Hello -v 'http://httpbin.org/get?course=networking&assignment=1'"
+        }
+    ]
+}
