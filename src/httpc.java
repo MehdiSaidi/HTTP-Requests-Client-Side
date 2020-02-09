@@ -12,8 +12,6 @@ import java.net.URISyntaxException;
 import Handlers.RequestHandler;
 import Handlers.ResponseHandler;
 
-import Helper.Helper;
-
 public class httpc {
     public static void main(String[] args) throws IOException, URISyntaxException {
 

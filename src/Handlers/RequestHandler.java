@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import Arguments.FileInlineData;
 import Arguments.Header;
+import Arguments.InlineData;
 import Arguments.Verbose;
 import Helper.Helper;
 
@@ -15,10 +16,10 @@ public class RequestHandler {
 
     public static String requestMessage;
     public static String web;
+    public static String entityBody = "";
     private static String method;
     private static String urlPath;
     private static String httpVersion = "HTTP/1.0\r\n";
-    private static String entityBody = "";
     private static String headers = "";
 
     public static void handleRequest(String[] args) throws IOException, URISyntaxException {
@@ -38,9 +39,6 @@ public class RequestHandler {
         // 2) Get arguments
         int urlIndex = handleArguments(args);
 
-        if (urlIndex != 1)
-            urlIndex -= 1;
-
         // 3) Get URL and path (Use URL and URI classes)
         // TODO: I think there might be something wrong with how we are getting the URL
         web = args[urlIndex];
@@ -58,20 +56,19 @@ public class RequestHandler {
 
                 urlPath = urlObject.getFile();
 
-                // 4) Put together the request message with the correct format
-                requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
-
             } catch (MalformedURLException e) {
                 web = "http://" + web;
             }
         }
+
+        // 4) Put together the request message with the correct format
+        requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
     }
 
     // Input = httpc post -h Content-Type:application/json -d '{"Assignment": 1}'
     // http://httpbin.org/post
 
     private static int handleArguments(String[] args) throws IOException {
-        boolean data = false;
         ArrayList<String> headerArr = new ArrayList<String>();
         int i = 1;
 
@@ -109,36 +106,33 @@ public class RequestHandler {
                 // TODO Create InlineData class and fix the issue below
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
-                    if (FileInlineData.active || data) {
+                    if (FileInlineData.active || InlineData.active) {
                         Helper.help();
                         break;
                     }
 
-                    data = true;
+                    InlineData.active = true;
 
-                    entityBody = args[i + 1];
-                    String a = entityBody.substring(entityBody.length() - 1);
                     i++;
+                    i = InlineData.applyArgument(i, args);
 
-                    // TODO: Fix this. It's not always going to be in JSON format {Assignment : 1}
-                    // ---------------> fixed
-                    // it's just a string
-                    if (!entityBody.substring(entityBody.length() - 1).equals("'")) {
-                        i = i + 1;
-                        while (!args[i].contains("-d") && !args[i].contains("-v") && !args[i].contains("-h")
-                                && !args[i].contains("'")) {
-
-                            entityBody = entityBody + args[i];
-                            i++;
-                        }
-                        entityBody = entityBody + args[i];
-                    }
                     continue;
                 }
 
+                /*
+                 * // TODO: Fix this. It's not always going to be in JSON format {Assignment :
+                 * 1} // ---------------> fixed // it's just a string if
+                 * (!entityBody.substring(entityBody.length() - 1).equals("'")) { i = i + 1;
+                 * while (!args[i].contains("-d") && !args[i].contains("-v") &&
+                 * !args[i].contains("-h") && !args[i].contains("'")) {
+                 * 
+                 * entityBody = entityBody + args[i]; i++; } entityBody = entityBody + args[i];
+                 * } continue; }
+                 */
+
                 // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
-                    if (data || FileInlineData.active) {
+                    if (InlineData.active || FileInlineData.active) {
 
                         Helper.help();
                         break;
@@ -148,7 +142,6 @@ public class RequestHandler {
 
                     entityBody = FileInlineData.applyArgument(args[i + 1]);
 
-                    i++;
                     continue;
                 }
 
@@ -163,6 +156,6 @@ public class RequestHandler {
         headers = Header.applyArgument(headerArr);
         entityBody = entityBody.replaceAll("'", "");
 
-        return i + 1;
+        return i;
     }
 }
