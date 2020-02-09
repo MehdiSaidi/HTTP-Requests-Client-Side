@@ -18,6 +18,8 @@ public class RequestMessageTest {
     public void httpbinGetQueryParamTest() throws IOException, URISyntaxException {
         // Input = httpc get 'http://httpbin.org/get?course=networking&assignment=1'
 
+        resetStaticVariables();
+
         final String[] args = { "get", "'http://httpbin.org/get?course=networking&assignment=1'" };
 
         final String expected = "GET /get?course=networking&assignment=1 HTTP/1.0\r\n\r\n";
@@ -34,6 +36,8 @@ public class RequestMessageTest {
     public void gaiaGetIndexTest() throws IOException, URISyntaxException {
         // Input = httpc get 'gaia.cs.umass.edu/kurose_ross/interactive/index.php'
 
+        resetStaticVariables();
+
         final String[] args = { "get", "'gaia.cs.umass.edu/kurose_ross/interactive/index.php'" };
 
         final String expected = "GET /kurose_ross/interactive/index.php HTTP/1.0\r\n\r\n";
@@ -48,6 +52,8 @@ public class RequestMessageTest {
     @Test
     public void httpbinVerboseGetQueryParamTest() throws IOException, URISyntaxException {
         // Input = httpc get -v 'http://httpbin.org/get?course=networking&assignment=1'
+
+        resetStaticVariables();
 
         final String[] args = { "get", "-v", "'http://httpbin.org/get?course=networking&assignment=1'" };
 
@@ -64,6 +70,8 @@ public class RequestMessageTest {
     public void postWithInlineData() throws IOException, URISyntaxException {
         // Input = httpc post -h Content-Type:application/json -d '{"Assignment": 1}'
         // http://httpbin.org/post
+
+        resetStaticVariables();
 
         final String[] args = { "post", "-h", "Content-Type:application/json", "-d", "'{\"Assignment\": 1}'",
                 "http://httpbin.org/post" };
@@ -82,6 +90,8 @@ public class RequestMessageTest {
         // Input = httpc get -h Content-Type:application/json -h Host:Hello -h
         // accept:ThisGift
         // http://httpbin.org/get
+
+        resetStaticVariables();
 
         final String input = "get -h Content-Type:application/json -h Host:Hello -h accept:ThisGift http://httpbin.org/get";
 
@@ -102,6 +112,8 @@ public class RequestMessageTest {
         // -h Content-Type:application/json -h Host:GimmeCookies -h accept:ThisGift
         // -f 'FilePathHere'
         // http://httpbin.org/get
+
+        resetStaticVariables();
 
         final String filePath = "";
 
@@ -134,5 +146,11 @@ public class RequestMessageTest {
         final String actual = RequestHandler.requestMessage;
 
         assertEquals(expected, actual);
+    }
+
+    private void resetStaticVariables() {
+        RequestHandler.entityBody = "";
+        RequestHandler.requestMessage = "";
+        RequestHandler.web = "";
     }
 }
