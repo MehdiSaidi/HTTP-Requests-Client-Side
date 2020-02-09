@@ -131,6 +131,7 @@ public class RequestHandler {
                             entityBody = entityBody + args[i];
                             i++;
                         }
+                        entityBody = entityBody + args[i];
                     }
                     continue;
                 }
