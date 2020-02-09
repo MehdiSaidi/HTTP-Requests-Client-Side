@@ -71,7 +71,6 @@ public class RequestHandler {
                     continue;
                 }
 
-                // TODO Create InlineData class and fix the issue below
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
                     if (FileInlineData.active || InlineData.active) {
@@ -86,18 +85,6 @@ public class RequestHandler {
 
                     continue;
                 }
-
-                // ! We might be able to remove this completely
-                /*
-                 * // TODO: Fix this. It's not always going to be in JSON format {Assignment :
-                 * 1} // ---------------> fixed // it's just a string if
-                 * (!entityBody.substring(entityBody.length() - 1).equals("'")) { i = i + 1;
-                 * while (!args[i].contains("-d") && !args[i].contains("-v") &&
-                 * !args[i].contains("-h") && !args[i].contains("'")) {
-                 * 
-                 * entityBody = entityBody + args[i]; i++; } entityBody = entityBody + args[i];
-                 * } continue; }
-                 */
 
                 // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
@@ -122,7 +109,7 @@ public class RequestHandler {
 
         }
 
-        headers = Header.applyArgument(headerArr);
+        headers += Header.applyArgument(headerArr);
         entityBody = (entityBody.length() > 0) ? entityBody.substring(1, entityBody.length() - 1) : "";
     }
 
@@ -143,6 +130,9 @@ public class RequestHandler {
                 web = urlObject.getHost();
                 urlPath = urlObject.getFile();
                 isURLValid = true;
+
+                if (!headers.contains("Host"))
+                    headers = headers + "Host:" + urlObject.getHost() + "\r\n";
 
             } catch (MalformedURLException e) {
                 web = "http://" + web;
