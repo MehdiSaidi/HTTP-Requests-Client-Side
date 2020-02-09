@@ -104,7 +104,7 @@ public class RequestMessageTest {
         // -f 'FilePathHere'
         // http://httpbin.org/get
 
-        final String filePath = "/Users/mehdisaidi/Desktop/suckbitch.txt";
+        final String filePath = "";
 
         final String input = "get -v -h Content-Type:application/json -h Host:GimmeCookies -h accept:ThisGift -f "
                 + "filePath" + " http://httpbin.org/get";
