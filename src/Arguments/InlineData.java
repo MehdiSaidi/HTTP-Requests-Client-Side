@@ -8,25 +8,13 @@ public class InlineData {
 
     public static int applyArgument(int index, String[] args) {
 
-        char end = args[index].charAt(args[index].length() - 1);
-
-        if (ArgumentHash.argumentHash.contains(args[index]) || end == '\'') {
-            RequestHandler.entityBody += args[index];
-            return index;
-        }
-
-        RequestHandler.entityBody += args[index] + " ";
-
-        while (!ArgumentHash.argumentHash.contains(args[index]) && end != '\'') {
+        while (!ArgumentHash.arguments.contains(args[index]) && (index + 1) != args.length - 1) {
+            RequestHandler.entityBody += args[index] + " ";
             index++;
-            end = args[index].charAt(args[index].length() - 1);
-
-            if (end == '\'')
-                RequestHandler.entityBody += args[index];
-            else
-                RequestHandler.entityBody += args[index] + " ";
-
         }
+
+        RequestHandler.entityBody += args[index];
+
         return index;
     }
 }

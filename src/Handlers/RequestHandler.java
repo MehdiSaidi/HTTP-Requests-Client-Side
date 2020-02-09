@@ -1,11 +1,13 @@
 package Handlers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import Arguments.ArgumentHash;
 import Arguments.FileInlineData;
 import Arguments.Header;
 import Arguments.InlineData;
@@ -23,59 +25,24 @@ public class RequestHandler {
     private static String headers = "";
 
     public static void handleRequest(String[] args) throws IOException, URISyntaxException {
-        boolean urlGood = false;
-
         // 1) Get method (GET or POST)
-        method = args[0];
+        setMethod(args);
 
-        if (method.equals("help")) {
-            if (args[1].equals("get"))
-                Helper.helpGet();
-            else if (args[1].equals("post"))
-                Helper.helpPost();
-        } else
-            method = method.toUpperCase();
+        // 2) Get URL
+        setURL(args);
 
-        // 2) Get arguments
-        int urlIndex = handleArguments(args);
-
-        // 3) Get URL and path (Use URL and URI classes)
-        // TODO: I think there might be something wrong with how we are getting the URL
-        web = args[urlIndex];
-
-        // TODO: Hacky way of doing it, let's keep an eye on this
-        web = web.replaceAll("'", "");
-
-        // --- the purpose of this loop is to retry once the exception has been catched.
-        while (!urlGood) {
-            try {
-                URL urlObject = new URL(web);
-
-                web = urlObject.getHost();
-                urlGood = true;
-
-                urlPath = urlObject.getFile();
-
-            } catch (MalformedURLException e) {
-                web = "http://" + web;
-            }
-        }
+        // 3) Get arguments
+        handleArguments(args);
 
         // 4) Put together the request message with the correct format
         requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
     }
 
-    // Input = httpc post -h Content-Type:application/json -d '{"Assignment": 1}'
-    // http://httpbin.org/post
-
-    private static int handleArguments(String[] args) throws IOException {
+    private static void handleArguments(String[] args) throws IOException {
         ArrayList<String> headerArr = new ArrayList<String>();
         int i = 1;
 
-        // TODO: Fix -> The URL is not always going to contain http
-        // ------------------------------------------> fixed
-        if (!args[1].contains("http") && args[1].equals("-d") || args[1].equals("-h") || args[1].equals("-f")
-                || args[1].equals("-v")) {
+        if (!args[1].contains("http") && ArgumentHash.arguments.contains(args[1])) {
 
             for (i = 1; i < args.length; i++) {
 
@@ -103,6 +70,7 @@ public class RequestHandler {
                     i++;
                     continue;
                 }
+
                 // TODO Create InlineData class and fix the issue below
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
@@ -119,6 +87,7 @@ public class RequestHandler {
                     continue;
                 }
 
+                // ! We might be able to remove this completely
                 /*
                  * // TODO: Fix this. It's not always going to be in JSON format {Assignment :
                  * 1} // ---------------> fixed // it's just a string if
@@ -154,8 +123,43 @@ public class RequestHandler {
         }
 
         headers = Header.applyArgument(headerArr);
-        entityBody = entityBody.replaceAll("'", "");
-
-        return i;
+        entityBody = entityBody.substring(1, entityBody.length() - 1);
     }
+
+    private static void setURL(String[] args) {
+        boolean isURLValid = false;
+
+        // TODO: I think there might be something wrong with how we are getting the URL
+        web = args[args.length - 1];
+
+        // TODO: Hacky way of doing it, let's keep an eye on this
+        web = web.substring(1, web.length() - 1);
+
+        // --- the purpose of this loop is to retry once the exception has been catched.
+        while (!isURLValid) {
+            try {
+                URL urlObject = new URL(web);
+
+                web = urlObject.getHost();
+                urlPath = urlObject.getFile();
+                isURLValid = true;
+
+            } catch (MalformedURLException e) {
+                web = "http://" + web;
+            }
+        }
+    }
+
+    private static void setMethod(String[] args) throws FileNotFoundException {
+        method = args[0];
+
+        if (method.equals("help")) {
+            if (args[1].equals("get"))
+                Helper.helpGet();
+            else if (args[1].equals("post"))
+                Helper.helpPost();
+        } else
+            method = method.toUpperCase();
+    }
+
 }
