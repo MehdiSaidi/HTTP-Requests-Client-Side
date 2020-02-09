@@ -28,11 +28,11 @@ public class RequestHandler {
         // 1) Get method (GET or POST)
         setMethod(args);
 
-        // 2) Get URL
-        setURL(args);
-
-        // 3) Get arguments
+        // 2) Get arguments
         handleArguments(args);
+
+        // 3) Get URL
+        setURL(args);
 
         // 4) Put together the request message with the correct format
         requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
