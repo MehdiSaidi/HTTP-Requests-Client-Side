@@ -8,35 +8,45 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import Handlers.RequestHandler;
+import Helper.Helper;
 
 public class Client {
 
     public static String sendRequest(String requestMsg) throws IOException {
 
-        InetAddress web = InetAddress.getByName(RequestHandler.web);
-        Socket socket = new Socket(web, 80);
+        try {
+            InetAddress web = InetAddress.getByName(RequestHandler.web);
 
-        Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            Socket socket = new Socket(web, 80);
 
-        out.write(RequestHandler.requestMessage);
-        out.flush();
+            Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        int data = in.read();
-        String response = "";
+            out.write(RequestHandler.requestMessage);
+            out.flush();
 
-        while (data != -1) {
-            char c = (char) data;
-            response += c;
-            data = in.read();
+            int data = in.read();
+            String response = "";
+
+            while (data != -1) {
+                char c = (char) data;
+                response += c;
+                data = in.read();
+            }
+
+            out.close();
+            in.close();
+            socket.close();
+
+            return response;
+
+        } catch (UnknownHostException e) {
+            Helper.help();
         }
 
-        out.close();
-        in.close();
-        socket.close();
-
-        return response;
+        return "";
     }
 }
