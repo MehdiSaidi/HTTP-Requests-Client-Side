@@ -158,6 +158,8 @@ public class RequestHandler {
         method = args[0];
 
         if (method.equals("help")) {
+            if (args.length == 1)
+                Helper.help();
             if (args[1].equals("get"))
                 Helper.helpGet();
             else if (args[1].equals("post"))
