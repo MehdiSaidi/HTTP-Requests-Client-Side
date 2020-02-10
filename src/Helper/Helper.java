@@ -25,14 +25,15 @@ public class Helper {
 
         Scanner readHelp = new Scanner(helpFile);
 
+        if (errMsg != null) {
+            System.err.println("\n" + errMsg);
+        }
+
         while (readHelp.hasNextLine()) {
             System.out.println(readHelp.nextLine());
         }
         readHelp.close();
 
-        if (errMsg != null) {
-            System.err.println(errMsg);
-        }
         System.exit(0);
     }
 

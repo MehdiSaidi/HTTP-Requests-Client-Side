@@ -15,6 +15,6 @@ public class InlineData {
 
         RequestHandler.entityBody += args[index];
 
-        return index;
+        return index - 1;
     }
 }

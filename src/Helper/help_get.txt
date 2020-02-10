@@ -1,5 +1,5 @@
 
-usage: httpc get [-v] [-h key:value] URL
+usage: httpc get [-v] [-h key:value] [-o name] URL
 
 Get executes a HTTP GET request for a given URL.
 
@@ -8,4 +8,7 @@ Get executes a HTTP GET request for a given URL.
           -h key:value       Associates Headers to HTTP Request with the format
                              'key:value'.
 
+          -o                 Write the body of the response to the specified file instead of the console.
 
+
+Arguments can be in any order.

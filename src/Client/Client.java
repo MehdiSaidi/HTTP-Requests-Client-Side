@@ -44,7 +44,7 @@ public class Client {
             return response;
 
         } catch (UnknownHostException e) {
-            Helper.help();
+            Helper.help("URL is not valid");
         }
 
         return "";

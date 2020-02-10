@@ -1,5 +1,5 @@
 
-usage: httpc post [-v] [-h key:value] [-d inline-data] [-f file] URL
+usage: httpc post [-v] [-h key:value] [-d inline-data] [-f file] [-o name] URL
 
 Post executes a HTTP POST request for a given URL with inline data or from
 file.
@@ -15,4 +15,8 @@ file.
    -f file.         Associates the content of a file to the body HTTP POST
                     request.
 
+   -o               Write the body of the response to the specified file instead of the console.
+
 Either [-d] or [-f] can be used but not both.
+
+Arguments can be in any order.

@@ -76,8 +76,9 @@ public class RequestHandler {
 
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
-                    if (FileInlineData.active || InlineData.active) {
-                        Helper.help("-d can only be entered once & you cannot enter both -f and -d");
+                    if ((FileInlineData.active || InlineData.active) || method.equals("GET")) {
+                        Helper.help("-d can only be entered once & you cannot enter both -f and -d" + "\n"
+                                + "Or you are using the GET method");
                         break;
                     }
 
@@ -91,9 +92,10 @@ public class RequestHandler {
 
                 // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
-                    if (InlineData.active || FileInlineData.active) {
+                    if ((InlineData.active || FileInlineData.active) || method.equals("GET")) {
 
-                        Helper.help("-f can only be entered once & you cannot enter both -f and -d");
+                        Helper.help("-f can only be entered once & you cannot enter both -f and -d" + "\n"
+                                + "Or you are using the GET method");
                         break;
                     }
 

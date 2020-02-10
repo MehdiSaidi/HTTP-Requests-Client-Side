@@ -22,7 +22,7 @@ public class Header {
         for (String s : headers) {
             String headerName = s.substring(0, s.indexOf(":"));
             if (!headerHash.add(headerName))
-                Helper.help();
+                Helper.help("You have duplicate headers!");
         }
 
         // If there are no duplicates
