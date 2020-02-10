@@ -8,7 +8,7 @@ public class InlineData {
 
     public static int applyArgument(int index, String[] args) {
 
-        while (!ArgumentHash.arguments.contains(args[index]) && (index + 1) != args.length - 1) {
+        while (!ArgumentHash.arguments.contains(args[index + 1]) && (index + 1) != args.length - 1) {
             RequestHandler.entityBody += args[index] + " ";
             index++;
         }
