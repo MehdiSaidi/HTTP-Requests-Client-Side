@@ -30,7 +30,7 @@ public class Helper {
         }
         readHelp.close();
 
-        if(errMsg != null){
+        if (errMsg != null) {
             System.err.println(errMsg);
         }
         System.exit(0);

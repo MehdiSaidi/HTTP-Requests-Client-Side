@@ -10,14 +10,14 @@ public class ResponseHandler {
 
     public static void handleResponse(String response, String[] args) throws URISyntaxException, IOException {
 
-        RedirectHandler.handleRedirect(response, args);
+        String parsedResponse = Verbose.applyArgument(response);
 
-        response = Verbose.applyArgument(response);
-
-        System.out.println("\n" + response);
+        if (!parsedResponse.equals("\r\n\r\n"))
+            System.out.println("\n" + Verbose.applyArgument(response));
 
         Output.applyArgument(response);
 
+        RedirectHandler.handleRedirect(response, args);
     }
 
 }

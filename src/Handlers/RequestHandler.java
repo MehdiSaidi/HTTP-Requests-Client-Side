@@ -179,6 +179,7 @@ public class RequestHandler {
         Verbose.active = false;
         Header.active = false;
         InlineData.active = false;
+        Output.active = false;
     }
 
     private static void addDefaultHeaders() throws IOException {
