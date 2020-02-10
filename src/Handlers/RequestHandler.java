@@ -126,7 +126,9 @@ public class RequestHandler {
         }
 
         headers += Header.applyArgument(headerArr);
-        entityBody = (entityBody.length() > 0) ? entityBody.substring(1, entityBody.length() - 1) : "";
+        entityBody = (entityBody.length() > 0 && entityBody.charAt(0) == '\'')
+                ? entityBody.substring(1, entityBody.length() - 1)
+                : entityBody;
     }
 
     private static void setURL(String[] args) throws IOException {

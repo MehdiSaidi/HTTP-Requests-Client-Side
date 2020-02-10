@@ -16,7 +16,7 @@
             "name": "httpc post",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "post -h Content-Length:20 -d 'testing' 'will this work' hahah 'this'' http://httpbin.org/post"
+            "args": "post -v \\\"http://httpbin.org/post\\\""
         },
         {
             "type": "java",
@@ -32,7 +32,7 @@
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
-            "args": "get oigiugiugkj"
+            "args": "get \\\"http://httpbin.org/get\\\""
         }
     ]
 }
