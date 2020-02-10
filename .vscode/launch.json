@@ -9,7 +9,7 @@
             "name": "Redirect",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "get \\\"http://httpbin.org/redirect/50\\\""
+            "args": "get -v \\\"http://httpbin.org/redirect/3\\\""
         },
         {
             "type": "java",
