@@ -6,17 +6,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Redirect 1",
+            "name": "Redirect",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "get -v \\\"https://tinyurl.com/vdpsr8a\\\""
-        },
-        {
-            "type": "java",
-            "name": "Redirect 2",
-            "request": "launch",
-            "mainClass": "httpc",
-            "args": "get -v -h User-Agent:Yomomma \\\"http://httpbin.org/redirect/4\\\""
+            "args": "get \\\"http://httpbin.org/redirect/50\\\""
         },
         {
             "type": "java",

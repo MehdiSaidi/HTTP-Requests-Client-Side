@@ -9,9 +9,7 @@ public class ResponseHandler {
 
     public static void handleResponse(String response, String[] args) throws URISyntaxException, IOException {
 
-        response = Verbose.applyArgument(response);
-
-        System.out.println("\n" + response);
+        System.out.println("\n" + Verbose.applyArgument(response));
 
         RedirectHandler.handleRedirect(response, args);
     }
