@@ -49,6 +49,9 @@ public class RequestHandler {
 
             for (i = 1; i < args.length; i++) {
 
+                if (i == args.length - 1)
+                    Helper.help("Invalid Input, try again!");
+
                 // ---------- Argument -v ----------
                 if (args[i].equals("-v")) {
 
@@ -64,7 +67,7 @@ public class RequestHandler {
                 if (args[i].equals("-h")) {
                     String headerFieldName = args[i + 1].substring(0, args[i + 1].indexOf(":") + 1);
                     String headerValue = args[i + 1].substring(args[i + 1].indexOf(":") + 1);
-                    String header = headerFieldName + " " + headerValue;
+                    String header = headerFieldName + headerValue;
 
                     Header.active = true;
 
@@ -101,7 +104,7 @@ public class RequestHandler {
 
                     FileInlineData.active = true;
 
-                    entityBody = FileInlineData.applyArgument(args[i + 1]);
+                    entityBody = FileInlineData.applyArgument(args[i + 1], args);
                     i++;
 
                     continue;
@@ -112,6 +115,10 @@ public class RequestHandler {
                     if (Output.active) {
                         Helper.help("You can only specify one Output file at a time.");
                     }
+
+                    if (i == args.length - 2)
+                        Helper.help("Missing URL, please try again!");
+
                     Output.active = true;
                     outputFile = args[i + 1];
                     i++;
@@ -138,7 +145,7 @@ public class RequestHandler {
         Character start = web.charAt(0);
         Character end = web.charAt(web.length() - 1);
 
-        if (start.equals("'"))
+        if (start.equals('\''))
             Helper.help("The URL cannot be wrapped by single quotation marks, please add double quotation marks.");
 
         web = (start.equals('\"') && end.equals('\"')) ? web.substring(1, web.length() - 1) : web;

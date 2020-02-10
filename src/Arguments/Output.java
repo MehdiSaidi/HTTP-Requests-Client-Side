@@ -8,7 +8,7 @@ public class Output {
     public static boolean active = false;
     public static String outputFile;
 
-    public static void applyArgument(String response) throws IOException {
+    public static void applyArgument(String response, String[] args) throws IOException {
 
         if (!active)
             return;
