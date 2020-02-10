@@ -77,7 +77,7 @@ public class RequestHandler {
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
                     if (FileInlineData.active || InlineData.active) {
-                        Helper.help();
+                        Helper.help("-d can only be entered once & you cannot enter both -f and -d");
                         break;
                     }
 
@@ -93,13 +93,14 @@ public class RequestHandler {
                 if (args[i].equals("-f")) {
                     if (InlineData.active || FileInlineData.active) {
 
-                        Helper.help();
+                        Helper.help("-f can only be entered once & you cannot enter both -f and -d");
                         break;
                     }
 
                     FileInlineData.active = true;
 
                     entityBody = FileInlineData.applyArgument(args[i + 1]);
+                    i++;
 
                     continue;
                 }
