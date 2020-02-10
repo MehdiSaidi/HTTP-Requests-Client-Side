@@ -152,4 +152,16 @@ public class RequestHandler {
             method = method.toUpperCase();
     }
 
+    public static void reset() {
+        requestMessage = "";
+        web = "";
+        entityBody = "";
+        method = "";
+        urlPath = "";
+        headers = "";
+        FileInlineData.active = false;
+        Verbose.active = false;
+        Header.active = false;
+        InlineData.active = false;
+    }
 }

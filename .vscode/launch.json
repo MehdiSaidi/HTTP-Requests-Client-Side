@@ -6,10 +6,17 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch) with Arguments Prompt",
+            "name": "Redirect 1",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "'\"{\"Assignment\": 1}'\""
+            "args": "get -v \\\"https://tinyurl.com/vdpsr8a\\\""
+        },
+        {
+            "type": "java",
+            "name": "Redirect 2",
+            "request": "launch",
+            "mainClass": "httpc",
+            "args": "get -v -h User-Agent:Yomomma \\\"http://httpbin.org/redirect/4\\\""
         },
         {
             "type": "java",
@@ -32,7 +39,7 @@
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
-            "args": "get -v -h Host:haha -h Host:yeeh \\\"http://httpbin.org/get?course=networking&assignment=1\\\""
+            "args": "get -v \\\"http://httpbin.org/redirect/4\\\""
         }
     ]
 }
