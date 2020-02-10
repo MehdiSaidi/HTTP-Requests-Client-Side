@@ -8,11 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import Arguments.ArgumentHash;
-import Arguments.FileInlineData;
-import Arguments.Header;
-import Arguments.InlineData;
-import Arguments.Verbose;
+import Arguments.*;
 import Helper.Helper;
 
 public class RequestHandler {
@@ -20,6 +16,7 @@ public class RequestHandler {
     public static String requestMessage;
     public static String web;
     public static String entityBody = "";
+    public static String outputFile;
     private static String method;
     private static String urlPath;
     private static String httpVersion = "HTTP/1.0\r\n";
@@ -40,6 +37,9 @@ public class RequestHandler {
 
         // 5) Put together the request message with the correct format
         requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
+
+        // 6) set the outputFile in Output class
+        Output.outputFile = outputFile;
     }
 
     private static void handleArguments(String[] args) throws IOException {
@@ -105,6 +105,16 @@ public class RequestHandler {
                     continue;
                 }
 
+                //---------- Argument -o ---------------
+                if(args[i].equals("-o")){
+                    if(Output.active){
+                        Helper.help("You can only specify one Output file at a time.");
+                    }
+                    Output.active = true;
+                    outputFile = args[i+1];
+                    i++;
+                }
+
                 // If you didn't match with any of these if's, error in your input
                 else {
                     break;
@@ -163,13 +173,16 @@ public class RequestHandler {
         if (!headers.contains("Host"))
             headers = headers + "Host:" + web + "\r\n";
 
-        if(!headers.contains("Content-Length"))
+        if (!headers.contains("Content-Length"))
             headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
+        else {
 
-        String ContentLengthNum = headers.substring(headers.indexOf("Length:"),headers.indexOf("\r\n"));
-        int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
+            String ContentLengthNum = headers.substring(headers.indexOf("Length:"), headers.indexOf("\r\n"));
+            int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
 
-        if(ContentLengthNumber > entityBody.length())
-            Helper.help("The content-length entered must be smaller or equal to the content-length of the entity body");
+
+            if (ContentLengthNumber > entityBody.length())
+                Helper.help("The content-length entered must be smaller or equal to the content-length of the entity body");
+        }
     }
 }
