@@ -17,9 +17,22 @@ public class Helper {
         while (readHelp.hasNextLine()) {
             System.out.println(readHelp.nextLine());
         }
+        readHelp.close();
+        System.exit(0);
+    }
 
+    public static void help(String errMsg) throws FileNotFoundException {
+
+        Scanner readHelp = new Scanner(helpFile);
+
+        while (readHelp.hasNextLine()) {
+            System.out.println(readHelp.nextLine());
+        }
         readHelp.close();
 
+        if(errMsg != null){
+            System.err.println(errMsg);
+        }
         System.exit(0);
     }
 
@@ -32,6 +45,7 @@ public class Helper {
         }
 
         readHelpGet.close();
+        System.exit(0);
     }
 
     public static void helpPost() throws FileNotFoundException {
@@ -43,5 +57,6 @@ public class Helper {
         }
 
         readHelpPost.close();
+        System.exit(0);
     }
 }

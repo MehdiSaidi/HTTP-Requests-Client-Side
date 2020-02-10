@@ -8,9 +8,11 @@ import java.io.Writer;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 
 import Handlers.RequestHandler;
 import Handlers.ResponseHandler;
+import Helper.Helper;
 
 public class httpc {
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -23,30 +25,36 @@ public class httpc {
 
         RequestHandler.handleRequest(args);
 
-        InetAddress web = InetAddress.getByName(RequestHandler.web);
-        Socket socket = new Socket(web, 80);
+        try {
+            InetAddress web = InetAddress.getByName(RequestHandler.web);
+            Socket socket = new Socket(web, 80);
 
-        Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            Writer out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        out.write(RequestHandler.requestMessage);
-        out.flush();
+            out.write(RequestHandler.requestMessage);
+            out.flush();
 
-        int data = in.read();
-        String response = "";
+            int data = in.read();
+            String response = "";
 
-        while (data != -1) {
-            char c = (char) data;
-            response += c;
-            data = in.read();
+            while (data != -1) {
+                char c = (char) data;
+                response += c;
+                data = in.read();
+            }
+
+            ResponseHandler.handleResponse(response);
+
+            out.close();
+            in.close();
+            socket.close();
+
         }
 
-        ResponseHandler.handleResponse(response);
-
-        out.close();
-        in.close();
-        socket.close();
-
+        catch(UnknownHostException e){
+            Helper.help("The URL entered is not valid");
+        }
     }
 
 }

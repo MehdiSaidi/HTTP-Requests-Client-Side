@@ -1,5 +1,6 @@
 package Handlers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -34,7 +35,10 @@ public class RequestHandler {
         // 3) Get arguments
         handleArguments(args);
 
-        // 4) Put together the request message with the correct format
+        // 4) add any Default headers if necessary
+        addDefaultHeaders();
+
+        // 5) Put together the request message with the correct format
         requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
     }
 
@@ -113,12 +117,15 @@ public class RequestHandler {
         entityBody = (entityBody.length() > 0) ? entityBody.substring(1, entityBody.length() - 1) : "";
     }
 
-    private static void setURL(String[] args) {
+    private static void setURL(String[] args) throws IOException {
         boolean isURLValid = false;
 
         web = args[args.length - 1];
         Character start = web.charAt(0);
         Character end = web.charAt(web.length() - 1);
+
+        if(start.equals("'"))
+            Helper.help("The URL cannot be wrapped by single quotation marks, please add double quotation marks.");
 
         web = (start.equals('\"') && end.equals('\"')) ? web.substring(1, web.length() - 1) : web;
 
@@ -130,9 +137,6 @@ public class RequestHandler {
                 web = urlObject.getHost();
                 urlPath = urlObject.getFile();
                 isURLValid = true;
-
-                if (!headers.contains("Host"))
-                    headers = headers + "Host:" + urlObject.getHost() + "\r\n";
 
             } catch (MalformedURLException e) {
                 web = "http://" + web;
@@ -150,6 +154,22 @@ public class RequestHandler {
                 Helper.helpPost();
         } else
             method = method.toUpperCase();
+
+        if(!method.equals("GET") && !method.equals("POST"))
+            Helper.help();
     }
 
+    private static void addDefaultHeaders() throws IOException {
+        if (!headers.contains("Host"))
+            headers = headers + "Host:" + web + "\r\n";
+
+        if(!headers.contains("Content-Length"))
+            headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
+
+        String ContentLengthNum = headers.substring(headers.indexOf("Length:"),headers.indexOf("\r\n"));
+        int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
+
+        if(ContentLengthNumber > entityBody.length())
+            Helper.help("The content-length entered must be smaller or equal to the content-length of the entity body");
+    }
 }
