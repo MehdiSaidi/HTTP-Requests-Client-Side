@@ -14,7 +14,6 @@ public class httpc {
         String response = Client.sendRequest(RequestHandler.requestMessage);
 
         ResponseHandler.handleResponse(response, args);
-
     }
 
 }

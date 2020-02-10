@@ -1,5 +1,6 @@
 package Handlers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,11 +8,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import Arguments.ArgumentHash;
-import Arguments.FileInlineData;
-import Arguments.Header;
-import Arguments.InlineData;
-import Arguments.Verbose;
+import Arguments.*;
 import Helper.Helper;
 
 public class RequestHandler {
@@ -19,6 +16,7 @@ public class RequestHandler {
     public static String requestMessage;
     public static String web;
     public static String entityBody = "";
+    public static String outputFile;
     private static String method;
     private static String urlPath;
     private static String httpVersion = "HTTP/1.0\r\n";
@@ -34,8 +32,14 @@ public class RequestHandler {
         // 3) Get URL
         setURL(args);
 
-        // 4) Put together the request message with the correct format
+        // 4) add any Default headers if necessary
+        addDefaultHeaders();
+
+        // 5) Put together the request message with the correct format
         requestMessage = method + " " + urlPath + " " + httpVersion + headers + "\r\n" + entityBody;
+
+        // 6) Set the outputFile in Output class
+        Output.outputFile = outputFile;
     }
 
     private static void handleArguments(String[] args) throws IOException {
@@ -101,6 +105,16 @@ public class RequestHandler {
                     continue;
                 }
 
+                // ---------- Argument -o ---------------
+                if (args[i].equals("-o")) {
+                    if (Output.active) {
+                        Helper.help("You can only specify one Output file at a time.");
+                    }
+                    Output.active = true;
+                    outputFile = args[i + 1];
+                    i++;
+                }
+
                 // If you didn't match with any of these if's, error in your input
                 else {
                     break;
@@ -113,12 +127,15 @@ public class RequestHandler {
         entityBody = (entityBody.length() > 0) ? entityBody.substring(1, entityBody.length() - 1) : "";
     }
 
-    private static void setURL(String[] args) {
+    private static void setURL(String[] args) throws IOException {
         boolean isURLValid = false;
 
         web = args[args.length - 1];
         Character start = web.charAt(0);
         Character end = web.charAt(web.length() - 1);
+
+        if (start.equals("'"))
+            Helper.help("The URL cannot be wrapped by single quotation marks, please add double quotation marks.");
 
         web = (start.equals('\"') && end.equals('\"')) ? web.substring(1, web.length() - 1) : web;
 
@@ -130,9 +147,6 @@ public class RequestHandler {
                 web = urlObject.getHost();
                 urlPath = urlObject.getFile();
                 isURLValid = true;
-
-                if (!headers.contains("Host"))
-                    headers = headers + "Host:" + urlObject.getHost() + "\r\n";
 
             } catch (MalformedURLException e) {
                 web = "http://" + web;
@@ -150,6 +164,9 @@ public class RequestHandler {
                 Helper.helpPost();
         } else
             method = method.toUpperCase();
+
+        if (!method.equals("GET") && !method.equals("POST"))
+            Helper.help();
     }
 
     public static void reset() {
@@ -163,5 +180,22 @@ public class RequestHandler {
         Verbose.active = false;
         Header.active = false;
         InlineData.active = false;
+    }
+
+    private static void addDefaultHeaders() throws IOException {
+        if (!headers.contains("Host"))
+            headers = headers + "Host:" + web + "\r\n";
+
+        if (!headers.contains("Content-Length"))
+            headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
+        else {
+
+            String ContentLengthNum = headers.substring(headers.indexOf("Length:"), headers.indexOf("\r\n"));
+            int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
+
+            if (ContentLengthNumber > entityBody.length())
+                Helper.help(
+                        "The content-length entered must be smaller or equal to the content-length of the entity body");
+        }
     }
 }
