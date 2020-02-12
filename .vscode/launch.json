@@ -16,7 +16,7 @@
             "name": "httpc post",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "post -h Host:Hello -d 'this is data' -h"
+            "args": "post -h Content-Type:application/json -d '{Assignment: 1}' -h http://httpbin.org/post"
         },
         {
             "type": "java",

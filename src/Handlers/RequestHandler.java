@@ -49,9 +49,6 @@ public class RequestHandler {
 
             for (i = 1; i < args.length; i++) {
 
-                if (i == args.length - 1)
-                    Helper.help("Invalid Input, try again!");
-
                 // ---------- Argument -v ----------
                 if (args[i].equals("-v")) {
 
@@ -204,10 +201,21 @@ public class RequestHandler {
             headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
         else {
 
-            String ContentLengthNum = headers.substring(headers.indexOf("Length:"), headers.indexOf("\r\n"));
-            int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
+            String[] headerArr = headers.split("\r\n");
+            int contentLengthNum = 0;
+            for (String s : headerArr) {
+                if (s.contains("Content-Length:")) {
+                    String length = s.substring(s.indexOf(':') + 1).trim();
+                    contentLengthNum = Integer.parseInt(length);
+                    break;
+                }
+            }
 
-            if (ContentLengthNumber > entityBody.length())
+            // String ContentLengthNum = headers.substring(headers.indexOf("Length:"));
+            // int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D",
+            // ""));
+
+            if (contentLengthNum > entityBody.length())
                 Helper.help(
                         "The content-length entered must be smaller or equal to the content-length of the entity body");
         }
