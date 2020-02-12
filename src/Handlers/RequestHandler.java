@@ -52,6 +52,11 @@ public class RequestHandler {
                 // ---------- Argument -v ----------
                 if (args[i].equals("-v")) {
 
+                    if (i == args.length - 1) {
+                        Helper.help(
+                                "Invalid format, URL should be last or you're missing the URL! Please try again :)");
+                    }
+
                     if (Verbose.active) {
                         Helper.help();
                         break;
@@ -62,6 +67,11 @@ public class RequestHandler {
 
                 // ---------- Argument -h ----------
                 if (args[i].equals("-h")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-h', please try again!");
+                    }
+
                     String headerFieldName = args[i + 1].substring(0, args[i + 1].indexOf(":") + 1);
                     String headerValue = args[i + 1].substring(args[i + 1].indexOf(":") + 1);
                     String header = headerFieldName + headerValue;
@@ -76,6 +86,11 @@ public class RequestHandler {
 
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-d', please try again!");
+                    }
+
                     if ((FileInlineData.active || InlineData.active) || method.equals("GET")) {
                         Helper.help("-d can only be entered once & you cannot enter both -f and -d" + "\n"
                                 + "Or you are using the GET method");
@@ -92,6 +107,11 @@ public class RequestHandler {
 
                 // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-f', please try again!");
+                    }
+
                     if ((InlineData.active || FileInlineData.active) || method.equals("GET")) {
 
                         Helper.help("-f can only be entered once & you cannot enter both -f and -d" + "\n"
@@ -109,12 +129,14 @@ public class RequestHandler {
 
                 // ---------- Argument -o ---------------
                 if (args[i].equals("-o")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-o', please try again!");
+                    }
+
                     if (Output.active) {
                         Helper.help("You can only specify one Output file at a time.");
                     }
-
-                    if (i == args.length - 2)
-                        Helper.help("Missing URL, please try again!");
 
                     Output.active = true;
                     outputFile = args[i + 1];
