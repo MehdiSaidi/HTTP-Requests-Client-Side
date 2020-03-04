@@ -52,6 +52,11 @@ public class RequestHandler {
                 // ---------- Argument -v ----------
                 if (args[i].equals("-v")) {
 
+                    if (i == args.length - 1) {
+                        Helper.help(
+                                "Invalid format, URL should be last or you're missing the URL! Please try again :)");
+                    }
+
                     if (Verbose.active) {
                         Helper.help();
                         break;
@@ -62,9 +67,14 @@ public class RequestHandler {
 
                 // ---------- Argument -h ----------
                 if (args[i].equals("-h")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-h', please try again!");
+                    }
+
                     String headerFieldName = args[i + 1].substring(0, args[i + 1].indexOf(":") + 1);
                     String headerValue = args[i + 1].substring(args[i + 1].indexOf(":") + 1);
-                    String header = headerFieldName + " " + headerValue;
+                    String header = headerFieldName + headerValue;
 
                     Header.active = true;
 
@@ -76,6 +86,11 @@ public class RequestHandler {
 
                 // ---------- Argument -d ----------
                 if (args[i].equals("-d")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-d', please try again!");
+                    }
+
                     if ((FileInlineData.active || InlineData.active) || method.equals("GET")) {
                         Helper.help("-d can only be entered once & you cannot enter both -f and -d" + "\n"
                                 + "Or you are using the GET method");
@@ -92,6 +107,11 @@ public class RequestHandler {
 
                 // ---------- Argument -f ----------
                 if (args[i].equals("-f")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-f', please try again!");
+                    }
+
                     if ((InlineData.active || FileInlineData.active) || method.equals("GET")) {
 
                         Helper.help("-f can only be entered once & you cannot enter both -f and -d" + "\n"
@@ -101,7 +121,7 @@ public class RequestHandler {
 
                     FileInlineData.active = true;
 
-                    entityBody = FileInlineData.applyArgument(args[i + 1]);
+                    entityBody = FileInlineData.applyArgument(args[i + 1], args);
                     i++;
 
                     continue;
@@ -109,9 +129,15 @@ public class RequestHandler {
 
                 // ---------- Argument -o ---------------
                 if (args[i].equals("-o")) {
+
+                    if (i == args.length - 2 || i == args.length - 1) {
+                        Helper.help("Missing URL OR Missing value for argument '-o', please try again!");
+                    }
+
                     if (Output.active) {
                         Helper.help("You can only specify one Output file at a time.");
                     }
+
                     Output.active = true;
                     outputFile = args[i + 1];
                     i++;
@@ -138,7 +164,7 @@ public class RequestHandler {
         Character start = web.charAt(0);
         Character end = web.charAt(web.length() - 1);
 
-        if (start.equals("'"))
+        if (start.equals('\''))
             Helper.help("The URL cannot be wrapped by single quotation marks, please add double quotation marks.");
 
         web = (start.equals('\"') && end.equals('\"')) ? web.substring(1, web.length() - 1) : web;
@@ -197,10 +223,21 @@ public class RequestHandler {
             headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
         else {
 
-            String ContentLengthNum = headers.substring(headers.indexOf("Length:"), headers.indexOf("\r\n"));
-            int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D", ""));
+            String[] headerArr = headers.split("\r\n");
+            int contentLengthNum = 0;
+            for (String s : headerArr) {
+                if (s.contains("Content-Length:")) {
+                    String length = s.substring(s.indexOf(':') + 1).trim();
+                    contentLengthNum = Integer.parseInt(length);
+                    break;
+                }
+            }
 
-            if (ContentLengthNumber > entityBody.length())
+            // String ContentLengthNum = headers.substring(headers.indexOf("Length:"));
+            // int ContentLengthNumber = Integer.parseInt(ContentLengthNum.replaceAll("\\D",
+            // ""));
+
+            if (contentLengthNum > entityBody.length())
                 Helper.help(
                         "The content-length entered must be smaller or equal to the content-length of the entity body");
         }

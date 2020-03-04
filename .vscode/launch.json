@@ -9,14 +9,14 @@
             "name": "Redirect",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "get -v \\\"http://httpbin.org/redirect/3\\\""
+            "args": "get -v \"http://httpbin.org/redirect/3\""
         },
         {
             "type": "java",
             "name": "httpc post",
             "request": "launch",
             "mainClass": "httpc",
-            "args": "post -v \\\"http://httpbin.org/post\\\""
+            "args": "post -h Content-Type:application/json -d '{Assignment: 1}' -h Content-Length:500 http://httpbin.org/post"
         },
         {
             "type": "java",
@@ -32,7 +32,7 @@
             "request": "launch",
             "mainClass": "httpc",
             "projectName": "Comp-445_a1_bb747a01",
-            "args": "get \\\"http://httpbin.org/get\\\""
+            "args": " get -o \"httpbin.org/get\""
         }
     ]
 }

@@ -15,7 +15,7 @@ public class ResponseHandler {
         if (!parsedResponse.equals("\r\n\r\n"))
             System.out.println("\n" + Verbose.applyArgument(response));
 
-        Output.applyArgument(response);
+        Output.applyArgument(response, args);
 
         RedirectHandler.handleRedirect(response, args);
     }

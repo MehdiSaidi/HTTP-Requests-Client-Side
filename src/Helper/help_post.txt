@@ -8,14 +8,19 @@ file.
                     and headers.
 
    -h key:value.    Associates headers to HTTP Request with the format
-                    'key:value'.
+                    'key:value. No space allowed between key:value.
+                     Example: Host:CookiesAndMilk
 
    -d string.       Associates an inline data to the body HTTP POST request.
+                    Wrapped in single quotes
+                    Example: -d 'Data goes here'
 
    -f file.         Associates the content of a file to the body HTTP POST
                     request.
+                    Wrapped in single quotes
+                    Example: -f 'PathGoesHere'
 
-   -o               Write the body of the response to the specified file instead of the console.
+   -o name          Write the body of the response to the specified file instead of the console.
 
 Either [-d] or [-f] can be used but not both.
 
