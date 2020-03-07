@@ -217,10 +217,10 @@ public class RequestHandler {
 
     private static void addDefaultHeaders() throws IOException {
         if (!headers.contains("Host"))
-            headers = headers + "Host:" + web + "\r\n";
+            headers = headers + "Host: " + web + "\r\n";
 
         if (!headers.contains("Content-Length"))
-            headers = headers + "Content-Length:" + entityBody.length() + "\r\n";
+            headers = headers + "Content-Length: " + entityBody.length() + "\r\n";
         else {
 
             String[] headerArr = headers.split("\r\n");
